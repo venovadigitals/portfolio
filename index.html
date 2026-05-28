@@ -113,18 +113,25 @@
   .nav-links a:hover { color: var(--blue); }
   .nav-links a:hover::after { width: 100%; }
   .nav-cta {
-    padding: 10px 28px;
+    padding: 12px 32px !important;
     background: var(--blue) !important;
     color: #ffffff !important;
-    border-radius: 4px;
-    letter-spacing: 1px;
+    border-radius: 10px !important;
+    letter-spacing: 2px !important;
     font-size: 13px !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 20px rgba(10,110,219,0.3);
+    box-shadow: 0 6px 24px rgba(10,110,219,0.45), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+    border: none !important;
   }
   .nav-cta::after { display: none !important; }
-  .nav-cta:hover { background: var(--blue-mid) !important; box-shadow: 0 6px 30px rgba(10,110,219,0.5) !important; transform: translateY(-1px); color: #fff !important; }
+  .nav-cta:hover {
+    background: #0558c2 !important;
+    box-shadow: 0 8px 32px rgba(10,110,219,0.6) !important;
+    transform: translateY(-1px) !important;
+    color: #fff !important;
+  }
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
   .hamburger span { width: 24px; height: 2px; background: var(--navy); transition: all 0.3s; }
 
@@ -810,19 +817,89 @@
       scroll-snap-align: start;
       flex-shrink: 0;
     }
+    /* ── MOBILE MENU OVERLAY ── */
     .nav-links.open {
-      display:flex; flex-direction:column;
-      position:fixed; top:0; left:0; right:0; bottom:0;
-      background:rgba(10,15,30,0.98);
-      backdrop-filter:blur(12px);
-      align-items:center; justify-content:center;
-      gap:36px; z-index:998;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0 !important;
+      position: fixed !important;
+      top: 0 !important; left: 0 !important;
+      right: 0 !important; bottom: 0 !important;
+      width: 100vw !important; height: 100vh !important;
+      background: #ffffff !important;
+      z-index: 9990 !important;
+      margin: 0 !important; padding: 0 !important;
+      list-style: none !important;
+      overflow: hidden !important;
     }
-    .nav-links.open a { font-size:22px; color:#ffffff; letter-spacing:2px; }
-    .hamburger { display:flex; z-index:1000; position:relative; }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-links.open li {
+      display: block !important;
+      width: 100% !important;
+      text-align: center !important;
+      margin: 0 !important; padding: 0 !important;
+    }
+    .nav-links.open li a {
+      display: block !important;
+      width: 100% !important;
+      padding: 22px 0 !important;
+      font-family: 'Space Grotesk', sans-serif !important;
+      font-size: 28px !important;
+      font-weight: 700 !important;
+      color: #0a1a3a !important;
+      text-transform: none !important;
+      letter-spacing: 0 !important;
+      text-decoration: none !important;
+      transition: color 0.2s !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+    .nav-links.open li a::after { display: none !important; }
+    .nav-links.open li a:hover { color: var(--blue) !important; }
+    /* Get Started pill button */
+    .nav-links.open li:last-child {
+      margin-top: 16px !important;
+      padding: 0 40px !important;
+    }
+    .nav-links.open li:last-child a {
+      display: inline-block !important;
+      width: auto !important;
+      padding: 18px 56px !important;
+      color: #ffffff !important;
+      border: none !important;
+      border-radius: 12px !important;
+      font-size: 20px !important;
+      font-weight: 800 !important;
+      letter-spacing: 2px !important;
+      text-transform: uppercase !important;
+      background: var(--blue) !important;
+      box-shadow: 0 6px 24px rgba(10,110,219,0.45) !important;
+    }
+    .nav-links.open li:last-child a:hover {
+      background: #0558c2 !important;
+      color: #fff !important;
+      box-shadow: 0 8px 32px rgba(10,110,219,0.6) !important;
+    }
+    /* Close × button */
+    .nav-close-btn {
+      display: none;
+      position: fixed;
+      top: 18px; right: 22px;
+      z-index: 9995;
+      background: none; border: none;
+      font-size: 30px;
+      color: var(--blue);
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+    }
+    .nav-close-btn.visible { display: block; }
+    /* Hide hamburger when menu open */
+    .hamburger.active { display: none; }
+    .hamburger { display: flex; z-index: 1000; position: relative; }
     .hamburger span { transition: all 0.3s ease; }
     section { padding:70px 24px; }
     #hero { padding:100px 24px 70px; }
@@ -859,6 +936,7 @@
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
+  <button class="nav-close-btn" id="navCloseBtn" onclick="toggleMenu()" aria-label="Close menu">&#x2715;</button>
 </nav>
 
 <!-- HERO -->
@@ -1316,13 +1394,20 @@
 
   // MOBILE MENU
   function toggleMenu(){
-    document.getElementById('navLinks').classList.toggle('open');
-    document.getElementById('hamburger').classList.toggle('active');
+    const links = document.getElementById('navLinks');
+    const burger = document.getElementById('hamburger');
+    const closeBtn = document.getElementById('navCloseBtn');
+    const isOpen = links.classList.toggle('open');
+    burger.classList.toggle('active', isOpen);
+    closeBtn.classList.toggle('visible', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
   document.querySelectorAll('.nav-links a').forEach(a=>{
     a.addEventListener('click',()=>{
       document.getElementById('navLinks').classList.remove('open');
       document.getElementById('hamburger').classList.remove('active');
+      document.getElementById('navCloseBtn').classList.remove('visible');
+      document.body.style.overflow = '';
     });
   });
 
