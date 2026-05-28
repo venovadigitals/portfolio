@@ -799,23 +799,26 @@
     nav { padding:12px 20px; }
     .nav-logo img { height: 34px; }
     .nav-links { display:none; }
-    /* Horizontal scrolling testimonials */
+    #testimonials { padding: 56px 0 !important; }
+    #testimonials > .section-label,
+    #testimonials > .section-title { padding: 0 24px; }
     .testimonials-track {
       display: flex !important;
       flex-direction: row !important;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      gap: 14px;
-      padding-bottom: 12px;
+      gap: 16px;
+      padding: 12px 24px 20px !important;
       scrollbar-width: none;
     }
     .testimonials-track::-webkit-scrollbar { display: none; }
     .testimonial-card {
-      min-width: 80vw;
-      max-width: 80vw;
-      scroll-snap-align: start;
+      min-width: calc(100vw - 48px) !important;
+      max-width: calc(100vw - 48px) !important;
+      scroll-snap-align: center;
       flex-shrink: 0;
+      box-sizing: border-box;
     }
     /* ── MOBILE MENU OVERLAY ── */
     .nav-links.open {
