@@ -785,22 +785,45 @@
     .services-grid { grid-template-columns:repeat(2,1fr); }
     .portfolio-grid { grid-template-columns:repeat(2,1fr); }
     .why-grid { grid-template-columns:repeat(2,1fr); }
-    .testimonials-track { grid-template-columns: 1fr; gap: 12px; }
     .contact-grid { grid-template-columns:1fr; gap:48px; }
     .footer-grid { grid-template-columns:1fr 1fr; gap:40px; }
   }
   @media (max-width: 768px) {
-    nav { padding:16px 24px; }
+    nav { padding:12px 20px; }
+    .nav-logo img { height: 34px; }
     .nav-links { display:none; }
+    /* Horizontal scrolling testimonials */
+    .testimonials-track {
+      display: flex !important;
+      flex-direction: row !important;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 14px;
+      padding-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .testimonials-track::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      min-width: 80vw;
+      max-width: 80vw;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
     .nav-links.open {
       display:flex; flex-direction:column;
       position:fixed; top:0; left:0; right:0; bottom:0;
-      background:var(--navy);
+      background:rgba(10,15,30,0.98);
+      backdrop-filter:blur(12px);
       align-items:center; justify-content:center;
-      gap:32px; z-index:999;
+      gap:36px; z-index:998;
     }
-    .nav-links.open a { font-size:20px; color:#ffffff; }
-    .hamburger { display:flex; z-index:1000; }
+    .nav-links.open a { font-size:22px; color:#ffffff; letter-spacing:2px; }
+    .hamburger { display:flex; z-index:1000; position:relative; }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .hamburger span { transition: all 0.3s ease; }
     section { padding:70px 24px; }
     #hero { padding:100px 24px 70px; }
     .services-grid,.portfolio-grid,.why-grid { grid-template-columns:1fr; }
@@ -824,7 +847,7 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1779977866/Invert_Venova_PNG_-_Copy_bpc6kj.png">
+    <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1779901596/WhatsApp_Image_2026-05-26_at_11.55.13_AM_fhapma.jpg">
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
@@ -1294,9 +1317,13 @@
   // MOBILE MENU
   function toggleMenu(){
     document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('active');
   }
   document.querySelectorAll('.nav-links a').forEach(a=>{
-    a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open'));
+    a.addEventListener('click',()=>{
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('active');
+    });
   });
 
   // SCROLL REVEAL
