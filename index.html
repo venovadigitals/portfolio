@@ -519,6 +519,11 @@
   .thumb-fallback-5 { background: linear-gradient(135deg, #0a1629 0%, #1565c0 100%); }
   .thumb-fallback-6 { background: linear-gradient(135deg, #1a1a0a 0%, #f57f17 100%); }
 
+  /* Portfolio filter hide/show */
+  .project-card.filter-hidden {
+    display: none;
+  }
+
   /* WHY CHOOSE US */
   #why { background: var(--navy); }
   #why .section-label { color: var(--blue-light); }
@@ -1110,12 +1115,12 @@
   <div class="section-label">Our Work</div>
   <h2 class="section-title reveal">Featured <span>Projects</span></h2>
   <div class="portfolio-filter reveal">
-    <button class="filter-btn active">All</button>
-    <button class="filter-btn">Web Design</button>
-    <button class="filter-btn">Social Media</button>
-    <button class="filter-btn">Marketing</button>
-    <button class="filter-btn">Video</button>
-    <button class="filter-btn">Branding</button>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="web design">Web Design</button>
+    <button class="filter-btn" data-filter="social media">Social Media</button>
+    <button class="filter-btn" data-filter="marketing">Marketing</button>
+    <button class="filter-btn" data-filter="video editing">Video</button>
+    <button class="filter-btn" data-filter="branding">Branding</button>
   </div>
   <div class="portfolio-grid">
 
@@ -1129,6 +1134,7 @@
          DESC      : Change the text inside .project-desc
     ====================================================== -->
     <a class="project-card reveal"
+       data-category="web design"
        href="https://sagdrones.com/"
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-1">
@@ -1151,6 +1157,7 @@
          REDIRECT  : Replace YOUR_PROJECT_URL_2
     ====================================================== -->
     <a class="project-card reveal reveal-delay-1"
+       data-category="video editing"
        href="https://drive.google.com/file/d/1icw7OC5aYQ270aRHd1buIeuFO0d5ujrl/view?usp=drive_link"
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-2">
@@ -1173,6 +1180,7 @@
          REDIRECT  : Replace YOUR_PROJECT_URL_3
     ====================================================== -->
     <a class="project-card reveal reveal-delay-2"
+       data-category="branding"
        href="https://drive.google.com/file/d/1pEIcCkTN_ZXX56TTkJnMQnS2SowOq7h2/view?usp=sharing"
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-3">
@@ -1195,6 +1203,7 @@
          REDIRECT  : Replace YOUR_PROJECT_URL_4
     ====================================================== -->
     <a class="project-card reveal"
+       data-category="web design"
        href="https://gaganyanaerospace.com/"
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-4">
@@ -1217,6 +1226,7 @@
          REDIRECT  : Replace YOUR_PROJECT_URL_5
     ====================================================== -->
     <a class="project-card reveal reveal-delay-1"
+       data-category="video editing"
        href="https://drive.google.com/file/d/1eqwmmB4_MerjjXCz1JU668fQJs-QttJF/view?usp=drive_link"
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-5">
@@ -1239,6 +1249,7 @@
          REDIRECT  : Replace YOUR_PROJECT_URL_6
     ====================================================== -->
     <a class="project-card reveal reveal-delay-2"
+       data-category="branding"
        href="https://drive.google.com/drive/folders/1-kowWiveUcmny0Nhh060f8zexHY4dpjd?usp=drive_link"
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-6">
@@ -1558,8 +1569,19 @@
   // PORTFOLIO FILTER
   document.querySelectorAll('.filter-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
+      // Update active button
       document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('.project-card').forEach(card=>{
+        const category = (card.getAttribute('data-category') || '').toLowerCase();
+        if(filter === 'all' || category === filter){
+          card.classList.remove('filter-hidden');
+        } else {
+          card.classList.add('filter-hidden');
+        }
+      });
     });
   });
 
