@@ -467,50 +467,57 @@
   .project-card {
     position: relative; overflow: hidden;
     aspect-ratio: 4/3; cursor: pointer;
+    display: block; text-decoration: none;
   }
   .project-bg {
     width: 100%; height: 100%;
     background: var(--navy);
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.5s ease;
+    position: relative;
+  }
+  .project-bg img.project-thumb {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute; inset: 0;
+  }
+  .project-bg .project-thumb-fallback {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: absolute; inset: 0;
   }
   .project-card:hover .project-bg { transform: scale(1.05); }
-  .mock-1 { background: linear-gradient(135deg, #0a1929 0%, #0d47a1 100%); }
-  .mock-2 { background: linear-gradient(135deg, #1a0a29 0%, #6a1b9a 100%); }
-  .mock-3 { background: linear-gradient(135deg, #0a1a0a 0%, #1b5e20 100%); }
-  .mock-4 { background: linear-gradient(135deg, #1a0a0a 0%, #b71c1c 100%); }
-  .mock-5 { background: linear-gradient(135deg, #0a1629 0%, #1565c0 100%); }
-  .mock-6 { background: linear-gradient(135deg, #1a1a0a 0%, #f57f17 100%); }
-  .mock-inner {
-    display: flex; align-items: center; justify-content: center;
-    width: 100%; height: 100%;
-  }
-  .mock-device {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px; overflow: hidden;
-  }
-  .mock-bar {
-    height: 24px; background: rgba(10,110,219,0.3);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .mock-lines { padding: 32px 12px 12px; display: flex; flex-direction: column; gap: 6px; }
-  .mock-line { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.15); }
-  .mock-line:nth-child(1) { width: 80%; }
-  .mock-line:nth-child(2) { width: 60%; background: rgba(10,110,219,0.5); }
-  .mock-line:nth-child(3) { width: 90%; }
-  .mock-line:nth-child(4) { width: 50%; }
   .project-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(to top, rgba(10,15,30,0.95) 0%, rgba(10,15,30,0.3) 60%, transparent 100%);
     padding: 28px 28px;
     display: flex; flex-direction: column; justify-content: flex-end;
     opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none;
   }
   .project-card:hover .project-overlay { opacity: 1; }
+  .project-overlay-arrow {
+    position: absolute; top: 20px; right: 20px;
+    width: 36px; height: 36px;
+    background: rgba(10,110,219,0.85);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #fff;
+    transform: translate(4px,-4px); opacity: 0;
+    transition: all 0.35s ease;
+  }
+  .project-card:hover .project-overlay-arrow { opacity: 1; transform: translate(0,0); }
   .project-cat { font-family: 'Space Grotesk', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-light); margin-bottom: 8px; }
   .project-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
   .project-desc { color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.6; }
+  /* Fallback gradient backgrounds when no thumbnail is set */
+  .thumb-fallback-1 { background: linear-gradient(135deg, #0a1929 0%, #0d47a1 100%); }
+  .thumb-fallback-2 { background: linear-gradient(135deg, #1a0a29 0%, #6a1b9a 100%); }
+  .thumb-fallback-3 { background: linear-gradient(135deg, #0a1a0a 0%, #1b5e20 100%); }
+  .thumb-fallback-4 { background: linear-gradient(135deg, #1a0a0a 0%, #b71c1c 100%); }
+  .thumb-fallback-5 { background: linear-gradient(135deg, #0a1629 0%, #1565c0 100%); }
+  .thumb-fallback-6 { background: linear-gradient(135deg, #1a1a0a 0%, #f57f17 100%); }
 
   /* WHY CHOOSE US */
   #why { background: var(--navy); }
@@ -1086,116 +1093,143 @@
     <button class="filter-btn">Branding</button>
   </div>
   <div class="portfolio-grid">
-    <div class="project-card reveal">
-      <div class="project-bg mock-1">
-        <div class="mock-inner">
-          <div class="mock-device" style="width:220px;height:140px;">
-            <div class="mock-bar"></div>
-            <div class="mock-lines">
-              <div class="mock-line"></div><div class="mock-line"></div>
-              <div class="mock-line"></div><div class="mock-line"></div>
-            </div>
-          </div>
-        </div>
+
+    <!-- =====================================================
+         PROJECT CARD 1
+         THUMBNAIL : Replace YOUR_THUMBNAIL_URL below with your image link (jpg/png/webp).
+                     If left as "#", the fallback gradient background shows instead.
+         REDIRECT  : Replace YOUR_PROJECT_URL below with the page/link to open on click.
+         CATEGORY  : Change the text inside .project-cat
+         TITLE     : Change the text inside .project-name
+         DESC      : Change the text inside .project-desc
+    ====================================================== -->
+    <a class="project-card reveal"
+       href="www.sagdrones.com"
+       target="_blank" rel="noopener noreferrer">
+      <div class="project-bg thumb-fallback-1">
+        <img class="project-thumb"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780125146/ChatGPT_Image_May_30_2026_12_41_51_PM_xtc6zm.png"
+             alt="Drone Company Website Design"
+             onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
+        <div class="project-overlay-arrow">↗</div>
         <div class="project-cat">Web Design</div>
-        <div class="project-name">Restaurant Website Design</div>
-        <p class="project-desc">Premium fine-dining restaurant website with immersive visuals and online booking.</p>
+        <div class="project-name">Drone Company Website Design</div>
+        <p class="project-desc">Premium Company website Design with Products page and whatsapp Booking.</p>
       </div>
-    </div>
-    <div class="project-card reveal reveal-delay-1">
-      <div class="project-bg mock-2">
-        <div class="mock-inner">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:200px;">
-            <div style="aspect-ratio:1;background:rgba(10,110,219,0.3);border-radius:4px;border:1px solid rgba(10,110,219,0.4);"></div>
-            <div style="aspect-ratio:1;background:rgba(255,255,255,0.05);border-radius:4px;border:1px solid rgba(255,255,255,0.1);"></div>
-            <div style="aspect-ratio:1;background:rgba(255,255,255,0.05);border-radius:4px;border:1px solid rgba(255,255,255,0.1);"></div>
-            <div style="aspect-ratio:1;background:rgba(10,110,219,0.2);border-radius:4px;border:1px solid rgba(10,110,219,0.3);"></div>
-          </div>
-        </div>
-      </div>
-      <div class="project-overlay">
-        <div class="project-cat">Social Media</div>
-        <div class="project-name">Clothing Brand Instagram</div>
-        <p class="project-desc">End-to-end Instagram management with aesthetic grid strategy and reels production.</p>
-      </div>
-    </div>
-    <div class="project-card reveal reveal-delay-2">
-      <div class="project-bg mock-3">
-        <div class="mock-inner">
-          <div style="display:flex;flex-direction:column;gap:10px;width:200px;">
-            <div style="height:60px;background:rgba(10,110,219,0.25);border-radius:4px;border:1px solid rgba(10,110,219,0.4);display:flex;align-items:center;padding:0 12px;font-family:'Space Grotesk',sans-serif;font-size:13px;letter-spacing:1px;color:rgba(10,180,219,0.9);">REAL ESTATE CAMPAIGN</div>
-            <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;"><div style="height:100%;width:75%;background:var(--blue);border-radius:3px;"></div></div>
-            <div style="display:flex;gap:8px;">
-              <div style="flex:1;height:28px;background:rgba(255,255,255,0.05);border-radius:3px;"></div>
-              <div style="flex:1;height:28px;background:rgba(255,255,255,0.05);border-radius:3px;"></div>
-            </div>
-          </div>
-        </div>
+    </a>
+
+    <!-- =====================================================
+         PROJECT CARD 2
+         THUMBNAIL : Replace YOUR_THUMBNAIL_URL_2
+         REDIRECT  : Replace YOUR_PROJECT_URL_2
+    ====================================================== -->
+    <a class="project-card reveal reveal-delay-1"
+       href="https://drive.google.com/file/d/1icw7OC5aYQ270aRHd1buIeuFO0d5ujrl/view?usp=drive_link"
+       target="_blank" rel="noopener noreferrer">
+      <div class="project-bg thumb-fallback-2">
+        <img class="project-thumb"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780125856/ChatGPT_Image_May_30_2026_12_53_51_PM_lgdbyv.png"
+             alt="Clothing Brand Instagram"
+             onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
-        <div class="project-cat">Digital Marketing</div>
-        <div class="project-name">Real Estate Campaign</div>
-        <p class="project-desc">Full-funnel digital marketing driving qualified leads through targeted ads.</p>
-      </div>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-bg mock-4">
-        <div class="mock-inner">
-          <div style="width:80px;background:rgba(30,30,40,0.9);border-radius:16px;padding:12px 8px;border:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:8px;align-items:center;">
-            <div style="width:40px;height:40px;background:rgba(230,21,21,0.3);border-radius:10px;"></div>
-            <div style="width:50px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;"></div>
-            <div style="width:40px;height:4px;background:rgba(10,110,219,0.4);border-radius:2px;"></div>
-            <div style="width:50px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;"></div>
-            <div style="width:44px;height:18px;background:var(--blue);border-radius:4px;margin-top:4px;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="project-overlay">
-        <div class="project-cat">App Development</div>
-        <div class="project-name">Mobile App UI Design</div>
-        <p class="project-desc">Sleek, intuitive mobile app UI with smooth navigation and pixel-perfect components.</p>
-      </div>
-    </div>
-    <div class="project-card reveal reveal-delay-1">
-      <div class="project-bg mock-5">
-        <div class="mock-inner">
-          <div style="display:flex;gap:8px;align-items:flex-end;width:200px;height:80px;">
-            <div style="flex:1;background:rgba(10,110,219,0.3);border-radius:3px 3px 0 0;height:40%;"></div>
-            <div style="flex:1;background:rgba(10,110,219,0.5);border-radius:3px 3px 0 0;height:70%;"></div>
-            <div style="flex:1;background:rgba(10,110,219,0.4);border-radius:3px 3px 0 0;height:55%;"></div>
-            <div style="flex:1;background:rgba(10,110,219,0.7);border-radius:3px 3px 0 0;height:90%;"></div>
-            <div style="flex:1;background:rgba(10,110,219,0.5);border-radius:3px 3px 0 0;height:65%;"></div>
-            <div style="flex:1;background:rgba(10,110,219,0.3);border-radius:3px 3px 0 0;height:45%;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="project-overlay">
+        <div class="project-overlay-arrow">↗</div>
         <div class="project-cat">Video Editing</div>
-        <div class="project-name">YouTube Video Project</div>
+        <div class="project-name">Video Editing</div>
+        <p class="project-desc">Engaging Video with Powerful Impact and Trending Editing.</p>
+      </div>
+    </a>
+
+    <!-- =====================================================
+         PROJECT CARD 3
+         THUMBNAIL : Replace YOUR_THUMBNAIL_URL_3
+         REDIRECT  : Replace YOUR_PROJECT_URL_3
+    ====================================================== -->
+    <a class="project-card reveal reveal-delay-2"
+       href="https://drive.google.com/file/d/1pEIcCkTN_ZXX56TTkJnMQnS2SowOq7h2/view?usp=sharing"
+       target="_blank" rel="noopener noreferrer">
+      <div class="project-bg thumb-fallback-3">
+        <img class="project-thumb"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780127189/ChatGPT_Image_May_30_2026_01_15_56_PM_vxw0c1.png"
+             alt="Brochure Design"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="project-overlay">
+        <div class="project-overlay-arrow">↗</div>
+        <div class="project-cat">Branding</div>
+        <div class="project-name">Brochure Design</div>
+        <p class="project-desc">Designed to Inform. Crafted to Impress.</p>
+      </div>
+    </a>
+
+    <!-- =====================================================
+         PROJECT CARD 4
+         THUMBNAIL : Replace YOUR_THUMBNAIL_URL_4
+         REDIRECT  : Replace YOUR_PROJECT_URL_4
+    ====================================================== -->
+    <a class="project-card reveal"
+       href="https://gaganyanaerospace.com/"
+       target="_blank" rel="noopener noreferrer">
+      <div class="project-bg thumb-fallback-4">
+        <img class="project-thumb"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780127628/ChatGPT_Image_May_30_2026_01_23_26_PM_h6eomi.png"
+             alt="Mobile App UI Design"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="project-overlay">
+        <div class="project-overlay-arrow">↗</div>
+        <div class="project-cat">Web Design</div>
+        <div class="project-name">Wesbsite Design</div>
+        <p class="project-desc">Elevating Drone Innovation Through Exceptional Design.</p>
+      </div>
+    </a>
+
+    <!-- =====================================================
+         PROJECT CARD 5
+         THUMBNAIL : Replace YOUR_THUMBNAIL_URL_5
+         REDIRECT  : Replace YOUR_PROJECT_URL_5
+    ====================================================== -->
+    <a class="project-card reveal reveal-delay-1"
+       href="https://drive.google.com/file/d/1eqwmmB4_MerjjXCz1JU668fQJs-QttJF/view?usp=drive_link"
+       target="_blank" rel="noopener noreferrer">
+      <div class="project-bg thumb-fallback-5">
+        <img class="project-thumb"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780126361/ChatGPT_Image_May_30_2026_01_01_27_PM_gvmvuk.png"
+             alt="Introduction Video Project"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="project-overlay">
+        <div class="project-overlay-arrow">↗</div>
+        <div class="project-cat">Video Editing</div>
+        <div class="project-name">Introduction Video Project</div>
         <p class="project-desc">High-impact editing with dynamic transitions, motion graphics and color grading.</p>
       </div>
-    </div>
-    <div class="project-card reveal reveal-delay-2">
-      <div class="project-bg mock-6">
-        <div class="mock-inner">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-            <div style="width:64px;height:64px;border:2px solid rgba(10,110,219,0.6);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--blue-light);background:rgba(10,110,219,0.15);">V</div>
-            <div style="display:flex;gap:8px;">
-              <div style="width:60px;height:6px;background:rgba(10,110,219,0.4);border-radius:3px;"></div>
-              <div style="width:40px;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;"></div>
-            </div>
-            <div style="width:120px;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;"></div>
-          </div>
-        </div>
+    </a>
+
+    <!-- =====================================================
+         PROJECT CARD 6
+         THUMBNAIL : Replace YOUR_THUMBNAIL_URL_6
+         REDIRECT  : Replace YOUR_PROJECT_URL_6
+    ====================================================== -->
+    <a class="project-card reveal reveal-delay-2"
+       href="https://drive.google.com/drive/folders/1-kowWiveUcmny0Nhh060f8zexHY4dpjd?usp=drive_link"
+       target="_blank" rel="noopener noreferrer">
+      <div class="project-bg thumb-fallback-6">
+        <img class="project-thumb"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780128679/ChatGPT_Image_May_30_2026_01_40_38_PM_lb6u5d.png"
+             alt="Business Branding Package"
+             onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
+        <div class="project-overlay-arrow">↗</div>
         <div class="project-cat">Branding</div>
-        <div class="project-name">Business Branding Package</div>
-        <p class="project-desc">Comprehensive brand identity including logo, color palette, and full brand guidelines.</p>
+        <div class="project-name">Logo Designs</div>
+        <p class="project-desc">Crafting Distinctive Logos That Build Lasting Brands.</p>
       </div>
-    </div>
+    </a>
+
   </div>
 </section>
 
@@ -1240,7 +1274,7 @@
         <p class="testimonial-text">We partnered with VENOVA DIGITALS to handle video editing for our company\'s Instagram reels, and they delivered exactly what our brand needed. The edits were crisp, professional, and perfectly suited for the agriculture-tech space we operate in. Our engagement on Instagram has noticeably improved since we started posting their edits. Great team, great output.</p>
         <div class="testimonial-author">
           <div class="author-avatar">CH</div>
-          <div><div class="author-name">A. Chandan</div><div class="author-role">Managing Director, AgroSky Drone Aspirant Pvt Ltd, Vijayawada, A.P</div></div>
+          <div><div class="author-name">Chandan</div><div class="author-role">Managing Director, AgroSky Drone Aspirant Pvt Ltd, Vijayawada, A.P</div></div>
         </div>
       </div>
     </div>
