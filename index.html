@@ -68,7 +68,10 @@
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <!-- ============================================================
      SCHEMA MARKUP — LocalBusiness · Organization · FAQ · Review · Service
      ============================================================ -->
@@ -1321,17 +1324,17 @@
     display: block; margin-bottom: 20px;
   }
   .footer-logo img { height: 44px; width: auto; }
-  .footer-tagline { color: rgba(255,255,255,0.45); font-size: 14px; line-height: 1.8; font-weight: 300; max-width: 280px; }
+  .footer-tagline { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.8; font-weight: 300; max-width: 280px; }
   .footer-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; color: #ffffff; }
   .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 14px; letter-spacing: 0.5px; transition: color 0.3s; }
+  .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; letter-spacing: 0.5px; transition: color 0.3s; }
   .footer-links a:hover { color: var(--blue-light); }
   .footer-bottom {
     display: flex; align-items: center; justify-content: space-between;
     padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);
     flex-wrap: wrap; gap: 16px;
   }
-  .footer-copy { color: rgba(255,255,255,0.3); font-size: 13px; letter-spacing: 0.5px; }
+  .footer-copy { color: rgba(255,255,255,0.65); font-size: 13px; letter-spacing: 0.5px; }
   .footer-copy span { color: var(--red); }
   .footer-socials { display: flex; gap: 12px; }
 
@@ -1443,7 +1446,7 @@
   .stat-item:hover { background:rgba(10,110,219,0.06); }
   .stat-num { font-family:'Barlow Condensed',sans-serif; font-size:48px; line-height:1; font-weight:900; color:#ffffff; }
   .stat-num span { color:var(--blue-light); }
-  .stat-label { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-top:8px; }
+  .stat-label { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.65); text-transform:uppercase; margin-top:8px; }
 
   /* MOBILE */
   @media (max-width: 1024px) {
@@ -1618,7 +1621,7 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1779977866/Invert_Venova_PNG_-_Copy_bpc6kj.png">
+    <img src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_320/v1779977866/Invert_Venova_PNG_-_Copy_bpc6kj.png" width="160" height="52" alt="Venova Digitals logo" loading="eager" fetchpriority="high">
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
@@ -1653,7 +1656,7 @@
     <div style="position:relative;">
       <div class="hero-image-accent"></div>
       <div class="hero-image-wrap">
-        <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1779981588/ChatGPT_Image_May_28_20_08_48_01_PM_pftqz5.png" alt="Digital Agency Team at Work" />
+        <img src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_960/v1779981588/ChatGPT_Image_May_28_20_08_48_01_PM_pftqz5.png" alt="Digital Agency Team at Work" width="480" height="460" loading="eager" fetchpriority="high" />
       </div>
       <div class="float-card" style="">
         <div class="float-num">50+</div>
@@ -1779,8 +1782,9 @@
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-1">
         <img class="project-thumb"
-             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780125146/ChatGPT_Image_May_30_2026_12_41_51_PM_xtc6zm.png"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_800/v1780125146/ChatGPT_Image_May_30_2026_12_41_51_PM_xtc6zm.png"
              alt="Drone Company Website Design"
+             width="400" height="300" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
@@ -1802,8 +1806,9 @@
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-2">
         <img class="project-thumb"
-             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780125856/ChatGPT_Image_May_30_2026_12_53_51_PM_lgdbyv.png"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_800/v1780125856/ChatGPT_Image_May_30_2026_12_53_51_PM_lgdbyv.png"
              alt="Clothing Brand Instagram"
+             width="400" height="300" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
@@ -1825,8 +1830,9 @@
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-3">
         <img class="project-thumb"
-             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780127189/ChatGPT_Image_May_30_2026_01_15_56_PM_vxw0c1.png"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_800/v1780127189/ChatGPT_Image_May_30_2026_01_15_56_PM_vxw0c1.png"
              alt="Brochure Design"
+             width="400" height="300" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
@@ -1848,8 +1854,9 @@
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-4">
         <img class="project-thumb"
-             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780127628/ChatGPT_Image_May_30_2026_01_23_26_PM_h6eomi.png"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_800/v1780127628/ChatGPT_Image_May_30_2026_01_23_26_PM_h6eomi.png"
              alt="Mobile App UI Design"
+             width="400" height="300" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
@@ -1871,8 +1878,9 @@
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-5">
         <img class="project-thumb"
-             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780126361/ChatGPT_Image_May_30_2026_01_01_27_PM_gvmvuk.png"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_800/v1780126361/ChatGPT_Image_May_30_2026_01_01_27_PM_gvmvuk.png"
              alt="Introduction Video Project"
+             width="400" height="300" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
@@ -1894,8 +1902,9 @@
        target="_blank" rel="noopener noreferrer">
       <div class="project-bg thumb-fallback-6">
         <img class="project-thumb"
-             src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780128679/ChatGPT_Image_May_30_2026_01_40_38_PM_lb6u5d.png"
+             src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_800/v1780128679/ChatGPT_Image_May_30_2026_01_40_38_PM_lb6u5d.png"
              alt="Business Branding Package"
+             width="400" height="300" loading="lazy"
              onerror="this.style.display='none'">
       </div>
       <div class="project-overlay">
@@ -1974,7 +1983,7 @@
         <div class="team-avatar-inner">
           <!-- ✏️ PHOTO: Replace the src below with Sai Venkat's profile photo URL -->
           <!-- If no photo, remove the <img> tag and the initials "SV" will show instead -->
-          <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1779981093/WhatsApp_Image_2026-05-13_at_12.02.13_PM_woggf0.jpg" alt="Sai Venkat" onerror="this.style.display='none';this.parentElement.dataset.initials='SV';">
+          <img src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_240/v1779981093/WhatsApp_Image_2026-05-13_at_12.02.13_PM_woggf0.jpg" alt="Sai Venkat" width="120" height="120" loading="lazy" onerror="this.style.display='none';this.parentElement.dataset.initials='SV';">
           <span class="avatar-initials">SV</span>
         </div>
       </div>
@@ -1992,7 +2001,7 @@
         <div class="team-avatar-inner" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">
           <!-- ✏️ PHOTO: Replace the src below with Oliva's profile photo URL -->
           <!-- If no photo, remove the <img> tag and the initials "OL" will show instead -->
-          <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1780123608/CN3_ESC.jpg_23_sjioxf.jpg" alt="Oliva" onerror="this.style.display='none';">
+          <img src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_240/v1780123608/CN3_ESC.jpg_23_sjioxf.jpg" alt="Oliva" width="120" height="120" loading="lazy" onerror="this.style.display='none';">
           <span class="avatar-initials">OL</span>
         </div>
       </div>
@@ -2132,7 +2141,7 @@
         </div>
       </div>
       <div class="social-icons reveal reveal-delay-3">
-        <a href="YOUR_INSTAGRAM_URL" class="social-icon" title="Instagram">
+        <a href="https://www.instagram.com/venova.digitals/" class="social-icon" title="Instagram" target="_blank" rel="noopener noreferrer">
           <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="22" height="22" style="display:block;">
         </a>
         <a href="https://wa.me/919390238537" class="social-icon" title="WhatsApp">
@@ -2142,12 +2151,12 @@
     </div>
     <div class="contact-form reveal reveal-delay-2">
       <div class="form-row">
-        <div class="form-group"><input type="text" placeholder="Your Name" /></div>
-        <div class="form-group"><input type="email" placeholder="Email Address" /></div>
+        <div class="form-group"><input type="text" placeholder="Your Name" aria-label="Your Name" /></div>
+        <div class="form-group"><input type="email" placeholder="Email Address" aria-label="Email Address" /></div>
       </div>
-      <div class="form-group"><input type="tel" placeholder="Phone Number" /></div>
+      <div class="form-group"><input type="tel" placeholder="Phone Number" aria-label="Phone Number" /></div>
       <div class="form-group">
-        <select>
+        <select aria-label="Select Service">
           <option value="" disabled selected>Select Service</option>
           <option>Website Development</option>
           <option>App Development</option>
@@ -2158,7 +2167,7 @@
           <option>Full Package</option>
         </select>
       </div>
-      <div class="form-group"><textarea placeholder="Tell us about your project..."></textarea></div>
+      <div class="form-group"><textarea placeholder="Tell us about your project..." aria-label="Project Details"></textarea></div>
       <button class="form-submit">Send Message →</button>
     </div>
   </div>
@@ -2169,7 +2178,7 @@
   <div class="footer-grid">
     <div>
       <a href="#" class="footer-logo">
-        <img src="https://res.cloudinary.com/drfl8crbx/image/upload/v1779980875/venova_digitals_transparent_vfqx7s.png">
+        <img src="https://res.cloudinary.com/drfl8crbx/image/upload/f_auto,q_auto,w_320/v1779980875/venova_digitals_transparent_vfqx7s.png" width="126" height="44" alt="Venova Digitals logo" loading="lazy">
       </a>
       <p class="footer-tagline">We transform ideas into powerful digital experiences. Your vision, our expertise — together we build something extraordinary.</p>
       <div class="footer-socials" style="margin-top:28px;">
