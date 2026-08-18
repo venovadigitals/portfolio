@@ -512,6 +512,7 @@
 
 <!-- Vercel Web Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --black: #0a0f1e;
@@ -1680,7 +1681,7 @@
     <button class="filter-btn" data-filter="video editing">Video</button>
     <button class="filter-btn" data-filter="branding">Branding</button>
   </div>
-  <div class="portfolio-grid">
+  <div class="portfolio-grid" id="portfolioGrid">
 
     <!-- =====================================================
          PROJECT CARD 1
@@ -1892,7 +1893,7 @@
 <section id="team">
   <div class="section-label">Meet The Team</div>
   <h2 class="section-title reveal">The People<br><span>Behind the Vision</span></h2>
-  <div class="team-grid">
+  <div class="team-grid" id="teamGrid">
     <div class="team-card reveal">
       <div class="team-avatar">
         <div class="team-avatar-inner">
@@ -2370,5 +2371,108 @@
   </span>
 </a>
 
+<script>
+/* =========================================================
+   DYNAMIC CONTENT — Featured Projects / Team / Reviews
+   Pulled from Supabase so they can be edited from admin-dashboard.html.
+   The hand-written cards above stay in the HTML as an instant-render
+   fallback (good for SEO / no-JS) and are replaced once live data loads.
+   Paste your Supabase project credentials below (same as admin-dashboard.html).
+   ========================================================= */
+(function(){
+  const SUPABASE_URL = 'https://shlcuvhjrmdifrvckqgp.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNobGN1dmhqcm1kaWZydmNrcWdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMzczMTYsImV4cCI6MjEwMjYxMzMxNn0.BxohGyCfTmmZ7jVvrD0fSsM91oeLbSLxneXOHUZYf_o';
+  if(SUPABASE_URL.indexOf('https://shlcuvhjrmdifrvckqgp.supabase.co') !== -1) return; // not configured yet — keep static content
+
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const esc = s => (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function initReveal(container){
+    const observer = window.__revealObserver || (window.__revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:0.08, rootMargin:'0px 0px -40px 0px'}));
+    container.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  }
+
+  function rewireFilters(){
+    document.querySelectorAll('.filter-btn').forEach(btn=>{
+      btn.onclick = ()=>{
+        document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.project-card').forEach(card=>{
+          const category = (card.getAttribute('data-category')||'').toLowerCase();
+          card.classList.toggle('filter-hidden', !(filter==='all' || category===filter));
+        });
+      };
+    });
+  }
+
+  async function loadProjects(){
+    const { data, error } = await sb.from('projects').select('*').eq('is_active', true).order('sort_order');
+    if(error || !data || !data.length) return;
+    const grid = document.getElementById('portfolioGrid');
+    grid.innerHTML = data.map(p => `
+      <a class="project-card reveal" data-category="${esc(p.category)}" href="${esc(p.project_url)||'#'}" target="_blank" rel="noopener noreferrer">
+        <div class="project-bg">
+          <img class="project-thumb" src="${esc(p.thumbnail_url)}" alt="${esc(p.title)}" width="400" height="300" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="project-overlay">
+          <div class="project-overlay-arrow">↗</div>
+          <div class="project-cat">${esc(p.category)}</div>
+          <div class="project-name">${esc(p.title)}</div>
+          <p class="project-desc">${esc(p.description)}</p>
+        </div>
+      </a>`).join('');
+    initReveal(grid);
+    rewireFilters();
+  }
+
+  async function loadTeam(){
+    const { data, error } = await sb.from('team_members').select('*').eq('is_active', true).order('sort_order');
+    if(error || !data || !data.length) return;
+    const grid = document.getElementById('teamGrid');
+    grid.innerHTML = data.map(t => `
+      <div class="team-card reveal">
+        <div class="team-avatar">
+          <div class="team-avatar-inner" style="${t.avatar_color?('background:'+esc(t.avatar_color)+';'):''}">
+            ${t.photo_url ? `<img src="${esc(t.photo_url)}" alt="${esc(t.name)}" width="120" height="120" loading="lazy" onerror="this.style.display='none';this.parentElement.dataset.initials='${esc(t.initials)}';">` : ''}
+            <span class="avatar-initials">${esc(t.initials)}</span>
+          </div>
+        </div>
+        <div class="team-name">${esc(t.name)}</div>
+        <div class="team-role">${esc(t.role)}</div>
+        <p class="team-bio">${esc(t.bio)}</p>
+        <div class="team-socials">
+          ${t.linkedin_url ? `<a href="${esc(t.linkedin_url)}" class="team-social" target="_blank" rel="noopener" title="LinkedIn">in</a>` : ''}
+          ${t.instagram_url ? `<a href="${esc(t.instagram_url)}" class="team-social" target="_blank" rel="noopener" title="Instagram">ig</a>` : ''}
+        </div>
+      </div>`).join('');
+    initReveal(grid);
+  }
+
+  async function loadTestimonials(){
+    const { data, error } = await sb.from('testimonials').select('*').eq('is_active', true).order('sort_order');
+    if(error || !data || !data.length) return;
+    const track = document.getElementById('testimonialsTrack');
+    const dots = document.getElementById('testimonialDots');
+    track.innerHTML = data.map((r,i) => `
+      <div class="testimonial-card reveal${i? ' reveal-delay-'+Math.min(i,3):''}">
+        <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        <p class="testimonial-text">${esc(r.review_text)}</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">${esc(r.author_initials)}</div>
+          <div><div class="author-name">${esc(r.author_name)}</div><div class="author-role">${esc(r.author_role)}</div></div>
+        </div>
+      </div>`).join('');
+    dots.innerHTML = data.map((r,i) => `<span class="t-dot${i===0?' active':''}" data-index="${i}"></span>`).join('');
+    initReveal(track);
+  }
+
+  loadProjects();
+  loadTeam();
+  loadTestimonials();
+})();
+</script>
 </body>
 </html>
