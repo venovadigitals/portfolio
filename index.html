@@ -969,6 +969,9 @@
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 2px;
   }
+  .project-card.extra-hidden { display: none; }
+  .portfolio-more-wrap { display: flex; justify-content: center; margin-top: 40px; }
+  .load-more-btn { background: transparent; }
   .project-card {
     position: relative; overflow: hidden;
     aspect-ratio: 4/3; cursor: pointer;
@@ -1832,6 +1835,9 @@
     </a>
 
   </div>
+  <div class="portfolio-more-wrap" id="portfolioMoreWrap" style="display:none;">
+    <button class="btn-secondary load-more-btn" id="loadMoreBtn">Load More Projects</button>
+  </div>
 </section>
 
 <!-- WHY CHOOSE US -->
@@ -2228,24 +2234,55 @@
   },{threshold:0.3});
   if(counterSection)counterObs.observe(counterSection);
 
-  // PORTFOLIO FILTER
+  // PORTFOLIO FILTER + LOAD MORE (6 shown by default, rest revealed on click)
+  window.PORTFOLIO_LIMIT = 6;
+  window.portfolioExpanded = false;
+
+  window.applyPortfolioView = function(filter){
+    filter = filter || (document.querySelector('.filter-btn.active')?.getAttribute('data-filter')) || 'all';
+    let shownCount = 0;
+    document.querySelectorAll('.project-card').forEach(card=>{
+      const category = (card.getAttribute('data-category') || '').toLowerCase();
+      const matches = (filter === 'all' || category === filter);
+      card.classList.toggle('filter-hidden', !matches);
+      if(matches){
+        // Only cap the count when viewing "All"; a specific filter always shows every match.
+        const overLimit = filter === 'all' && !window.portfolioExpanded && shownCount >= window.PORTFOLIO_LIMIT;
+        card.classList.toggle('extra-hidden', overLimit);
+        if(!overLimit) shownCount++;
+      } else {
+        card.classList.remove('extra-hidden');
+      }
+    });
+    window.refreshPortfolioMoreButton(filter);
+  };
+
+  window.refreshPortfolioMoreButton = function(filter){
+    const wrap = document.getElementById('portfolioMoreWrap');
+    const btn = document.getElementById('loadMoreBtn');
+    if(!wrap || !btn) return;
+    const total = document.querySelectorAll('.project-card').length;
+    const showButton = filter === 'all' && !window.portfolioExpanded && total > window.PORTFOLIO_LIMIT;
+    wrap.style.display = showButton ? 'flex' : 'none';
+  };
+
   document.querySelectorAll('.filter-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      // Update active button
       document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filter = btn.getAttribute('data-filter');
-      document.querySelectorAll('.project-card').forEach(card=>{
-        const category = (card.getAttribute('data-category') || '').toLowerCase();
-        if(filter === 'all' || category === filter){
-          card.classList.remove('filter-hidden');
-        } else {
-          card.classList.add('filter-hidden');
-        }
-      });
+      window.applyPortfolioView(btn.getAttribute('data-filter'));
     });
   });
+
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  if(loadMoreBtn){
+    loadMoreBtn.addEventListener('click', ()=>{
+      window.portfolioExpanded = true;
+      window.applyPortfolioView('all');
+    });
+  }
+
+  window.applyPortfolioView('all');
 
   // FORM SUBMIT
   document.querySelector('.form-submit').addEventListener('click',function(){
@@ -2395,17 +2432,23 @@
   }
 
   function rewireFilters(){
+    // Filter clicks + the Load More button are handled by the shared
+    // window.applyPortfolioView()/refreshPortfolioMoreButton() set up in the
+    // main script block — just re-bind click handlers to the fresh buttons/DOM.
     document.querySelectorAll('.filter-btn').forEach(btn=>{
       btn.onclick = ()=>{
         document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
         btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-        document.querySelectorAll('.project-card').forEach(card=>{
-          const category = (card.getAttribute('data-category')||'').toLowerCase();
-          card.classList.toggle('filter-hidden', !(filter==='all' || category===filter));
-        });
+        window.applyPortfolioView(btn.getAttribute('data-filter'));
       };
     });
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if(loadMoreBtn){
+      loadMoreBtn.onclick = ()=>{
+        window.portfolioExpanded = true;
+        window.applyPortfolioView('all');
+      };
+    }
   }
 
   async function loadProjects(){
@@ -2426,6 +2469,11 @@
       </a>`).join('');
     initReveal(grid);
     rewireFilters();
+    // Fresh data just landed — reset to the default collapsed "All" view.
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelector('.filter-btn[data-filter="all"]')?.classList.add('active');
+    window.portfolioExpanded = false;
+    window.applyPortfolioView('all');
   }
 
   async function loadTeam(){
