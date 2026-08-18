@@ -2382,7 +2382,7 @@
 (function(){
   const SUPABASE_URL = 'https://shlcuvhjrmdifrvckqgp.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNobGN1dmhqcm1kaWZydmNrcWdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwMzczMTYsImV4cCI6MjEwMjYxMzMxNn0.BxohGyCfTmmZ7jVvrD0fSsM91oeLbSLxneXOHUZYf_o';
-  if(SUPABASE_URL.indexOf('https://shlcuvhjrmdifrvckqgp.supabase.co') !== -1) return; // not configured yet — keep static content
+  if(!SUPABASE_URL || !SUPABASE_ANON_KEY){ return; } // not configured yet — keep static content
 
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const esc = s => (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
